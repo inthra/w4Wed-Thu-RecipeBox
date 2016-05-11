@@ -89,4 +89,26 @@ public class RecipeTest {
     assertEquals("Bake 15 mins", Recipe.find(myRecipe.getRecipeId()).getInstructions());
   }
 
+  @Test
+  public void addTag_addsTagToRecipe() {
+    Tag myTag = new Tag("Lunch");
+    myTag.save();
+    Recipe myRecipe = new Recipe("Burrito");
+    myRecipe.save();
+    myRecipe.addTag(myTag);
+    Tag savedTag = myRecipe.getTags().get(0);
+    assertTrue(myTag.equals(savedTag));
+  }
+
+  @Test
+  public void getTags_returnsAllTags_List() {
+    Tag myTag = new Tag("Lunch");
+    myTag.save();
+    Recipe myRecipe = new Recipe("Burrito");
+    myRecipe.save();
+    myRecipe.addTag(myTag);
+    List savedTags = myRecipe.getTags();
+    assertEquals(1, savedTags.size());
+  }
+
 }

@@ -65,5 +65,28 @@ public class TagTest {
     assertEquals("Fondue", Tag.find(myTag.getTagId()).getTagName());
   }
 
+  @Test
+  public void addRecipe_addsRecipeToTag_true() {
+    Tag myTag = new Tag("Breakfast");
+    myTag.save();
+    Recipe myRecipe = new Recipe("Fried egg");
+    myRecipe.save();
+    myTag.addRecipe(myRecipe);
+    Recipe savedRecipe = myTag.getRecipes().get(0);
+    assertTrue(myRecipe.equals(savedRecipe));
+  }
+
+  @Test
+  public void getRecipes_returnsAllRecipes_List() {
+    Tag myTag = new Tag("Breakfast");
+    myTag.save();
+    Recipe myRecipe = new Recipe("Fried egg");
+    myRecipe.save();
+    myTag.addRecipe(myRecipe);
+    List savedRecipes = myTag.getRecipes();
+    assertEquals(1, savedRecipes.size());
+  }
+
+
 
 }

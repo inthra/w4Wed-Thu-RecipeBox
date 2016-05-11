@@ -97,4 +97,34 @@ public class Recipe {
     }
   }
 
+  public void addTag(Tag tag) {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "INSERT INTO tags_recipes (tag_id, recipe_id) VALUES (:tag_id, :recipe_id)";
+      con.createQuery(sql)
+        .addParameter("tag_id", tag.getTagId())
+        .addParameter("recipe_id", this.getRecipeId())
+        .executeUpdate();
+    }
+  }
+
+  public List<Tag> getTags() {
+    try(Connection con = DB.sql2o.open()){
+      String joinQuery = "SELECT tag_id FROM tags_recipes WHERE recipe_id = :recipe_id";
+      List<Integer> tag_ids = con.createQuery(joinQuery)
+        .addParameter("recipe_id", this.getRecipeId())
+        .executeAndFetch(Integer.class);
+
+      List<Tag> tags = new ArrayList<Tag>();
+
+      for (Integer tag_id : tag_ids) {
+        String recipeQuery = "SELECT * FROM tags WHERE id = :tag_id";
+        Tag tag = con.createQuery(recipeQuery)
+          .addParameter("tag_id", tag_id)
+          .executeAndFetchFirst(Tag.class);
+        tags.add(tag);
+      }
+      return tags;
+    }
+  }
+
 }
