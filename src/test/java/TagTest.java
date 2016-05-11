@@ -87,6 +87,14 @@ public class TagTest {
     assertEquals(1, savedRecipes.size());
   }
 
-
-
+  @Test
+  public void delete_deletesAllRecipesAndTagsAssociations() {
+    Tag myTag = new Tag("Dessert");
+    myTag.save();
+    Recipe myRecipe = new Recipe("Ice cream");
+    myRecipe.save();
+    myTag.addRecipe(myRecipe);
+    myTag.delete();
+    assertEquals(0, myRecipe.getTags().size());
+  }
 }

@@ -127,4 +127,18 @@ public class Recipe {
     }
   }
 
+  public void delete() {
+    try(Connection con = DB.sql2o.open()) {
+      String deleteQuery = "DELETE FROM recipes WHERE id = :id;";
+        con.createQuery(deleteQuery)
+          .addParameter("id", this.getRecipeId())
+          .executeUpdate();
+
+      String joinDeleteQuery = "DELETE FROM tags_recipes WHERE recipe_id = :recipe_id";
+        con.createQuery(joinDeleteQuery)
+          .addParameter("recipe_id", this.getRecipeId())
+          .executeUpdate();
+    }
+  }
+
 }
