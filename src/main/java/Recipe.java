@@ -127,8 +127,43 @@ public class Recipe {
     }
   }
 
+  public void addIngredient(Ingredient ingredient) {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "INSERT INTO recipes_ingredients (ingredient_id, recipe_id) VALUES (:ingredient_id, :recipe_id)";
+      con.createQuery(sql)
+        .addParameter("ingredient_id", ingredient.getIngredientId())
+        .addParameter("recipe_id", this.getRecipeId())
+        .executeUpdate();
+    }
+  }
+
+  public List<Ingredient> getIngredients() {
+    try(Connection con = DB.sql2o.open()){
+      String joinQuery = "SELECT ingredient_id FROM recipes_ingredients WHERE recipe_id = :recipe_id";
+      List<Integer> ingredient_ids = con.createQuery(joinQuery)
+        .addParameter("recipe_id", this.getRecipeId())
+        .executeAndFetch(Integer.class);
+
+      List<Ingredient> ingredients = new ArrayList<Ingredient>();
+
+      for (Integer ingredient_id : ingredient_ids) {
+        String recipeQuery = "SELECT * FROM ingredients WHERE id = :ingredient_id";
+        Ingredient ingredient = con.createQuery(recipeQuery)
+          .addParameter("ingredient_id", ingredient_id)
+          .executeAndFetchFirst(Ingredient.class);
+        ingredients.add(ingredient);
+      }
+      return ingredients;
+    }
+  }
+
   public void delete() {
     try(Connection con = DB.sql2o.open()) {
+      String joinDeleteQueryRecipesIngredients = "DELETE FROM recipes_ingredients WHERE recipe_id = :recipe_id";
+        con.createQuery(joinDeleteQueryRecipesIngredients)
+          .addParameter("recipe_id", this.getRecipeId())
+          .executeUpdate();
+
       String deleteQuery = "DELETE FROM recipes WHERE id = :id;";
         con.createQuery(deleteQuery)
           .addParameter("id", this.getRecipeId())
@@ -139,10 +174,7 @@ public class Recipe {
           .addParameter("recipe_id", this.getRecipeId())
           .executeUpdate();
 
-      String joinDeleteQueryRecipesIngredients = "DELETE FROM recipes_ingredients WHERE recipe_id = :recipe_id";
-        con.createQuery(joinDeleteQueryRecipesIngredients)
-          .addParameter("recipe_id", this.getRecipeId())
-          .executeUpdate();
+
     }
   }
 

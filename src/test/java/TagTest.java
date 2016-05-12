@@ -95,6 +95,7 @@ public class TagTest {
     myRecipe.save();
     myTag.addRecipe(myRecipe);
     myTag.delete();
+    assertEquals(0, Tag.all().size());
     assertEquals(0, myRecipe.getTags().size());
   }
 }

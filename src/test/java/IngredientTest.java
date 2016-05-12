@@ -66,24 +66,37 @@ public class IngredientTest {
   }
 
   @Test
-  public void addIngredient_addsIngredientToRecipe_true() {
-    Recipe myRecipe = new Recipe("Ham sandwich");
-    myRecipe.save();
-    Ingredient myIngredient = new Ingredient("Black forest ham");
+  public void addRecipe_addsRecipeToIngredient_true() {
+    Ingredient myIngredient = new Ingredient("Egg");
     myIngredient.save();
-    myRecipe.addIngredient(myIngredient);
-    Ingredient savedIngredient = myRecipe.getIngredients().get(0);
-    assertTrue(myIngredient.equals(savedIngredient));
+    Recipe myRecipe = new Recipe("Scrambled egg");
+    myRecipe.save();
+    myIngredient.addRecipe(myRecipe);
+    Recipe savedRecipe = myIngredient.getRecipes().get(0);
+    assertTrue(myRecipe.equals(savedRecipe));
   }
 
   @Test
-  public void getIngredients_returnsAllIngredients_List() {
-    Recipe myRecipe = new Recipe("Ham sandwich");
-    myRecipe.save();
-    Ingredient myIngredient = new Ingredient("Black forest ham");
+  public void getRecipes_returnsAllRecipes_List() {
+    Ingredient myIngredient = new Ingredient("Egg");
     myIngredient.save();
-    myRecipe.addIngredient(myIngredient);
-    List savedIngredients = myRecipe.getIngredients();
-    assertEquals(1, savedIngredients.size());
+    Recipe myRecipe = new Recipe("Scrambled egg");
+    myRecipe.save();
+    myIngredient.addRecipe(myRecipe);
+    List savedRecipes = myIngredient.getRecipes();
+    assertEquals(1, savedRecipes.size());
   }
+
+  @Test
+  public void delete_deletesAllRecipesAndIngredientsAssociations() {
+    Ingredient myIngredient = new Ingredient("Milk");
+    myIngredient.save();
+    Recipe myRecipe = new Recipe("Cereal");
+    myRecipe.save();
+    myIngredient.addRecipe(myRecipe);
+    myIngredient.delete();
+    assertEquals(0, Ingredient.all().size());
+    assertEquals(0, myRecipe.getIngredients().size());
+  }
+
 }

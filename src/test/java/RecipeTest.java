@@ -120,6 +120,7 @@ public class RecipeTest {
     myRecipe.addTag(myTag);
     myRecipe.delete();
     assertEquals(0, myTag.getRecipes().size());
+    assertEquals(0, Recipe.all().size());
   }
 
   @Test
@@ -130,7 +131,34 @@ public class RecipeTest {
     myIngredient.save();
     myRecipe.addIngredient(myIngredient);
     myRecipe.delete();
-    assertEquals(0, myRecipe.getIngredient().size());
+    // myIngredient.delete();
+    // assertEquals(0, myRecipe.getIngredients().size());
+    // assertEquals(0, Ingredient.all().size());
+    assertEquals(0, myIngredient.getRecipes().size());
+    assertEquals(0, Recipe.all().size());
   }
+
+  @Test
+  public void addIngredient_addsIngredientToRecipe() {
+    Ingredient myIngredient = new Ingredient("Lettuce");
+    myIngredient.save();
+    Recipe myRecipe = new Recipe("Salad");
+    myRecipe.save();
+    myRecipe.addIngredient(myIngredient);
+    Ingredient savedIngredient = myRecipe.getIngredients().get(0);
+    assertTrue(myIngredient.equals(savedIngredient));
+  }
+
+  @Test
+  public void getIngredients_returnsAllIngredients_List() {
+    Ingredient myIngredient = new Ingredient("Lettuce");
+    myIngredient.save();
+    Recipe myRecipe = new Recipe("Salad");
+    myRecipe.save();
+    myRecipe.addIngredient(myIngredient);
+    List savedIngredients = myRecipe.getIngredients();
+    assertEquals(1, savedIngredients.size());
+  }
+
 
 }
