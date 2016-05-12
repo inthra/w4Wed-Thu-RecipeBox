@@ -134,8 +134,13 @@ public class Recipe {
           .addParameter("id", this.getRecipeId())
           .executeUpdate();
 
-      String joinDeleteQuery = "DELETE FROM tags_recipes WHERE recipe_id = :recipe_id";
-        con.createQuery(joinDeleteQuery)
+      String joinDeleteQueryTagsRecipes = "DELETE FROM tags_recipes WHERE recipe_id = :recipe_id";
+        con.createQuery(joinDeleteQueryTagsRecipes)
+          .addParameter("recipe_id", this.getRecipeId())
+          .executeUpdate();
+
+      String joinDeleteQueryRecipesIngredients = "DELETE FROM recipes_ingredients WHERE recipe_id = :recipe_id";
+        con.createQuery(joinDeleteQueryRecipesIngredients)
           .addParameter("recipe_id", this.getRecipeId())
           .executeUpdate();
     }

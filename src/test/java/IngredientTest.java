@@ -65,4 +65,25 @@ public class IngredientTest {
     assertEquals("cheddar", Ingredient.find(myIngredient.getIngredientId()).getIngredientName());
   }
 
+  @Test
+  public void addIngredient_addsIngredientToRecipe_true() {
+    Recipe myRecipe = new Recipe("Ham sandwich");
+    myRecipe.save();
+    Ingredient myIngredient = new Ingredient("Black forest ham");
+    myIngredient.save();
+    myRecipe.addIngredient(myIngredient);
+    Ingredient savedIngredient = myRecipe.getIngredients().get(0);
+    assertTrue(myIngredient.equals(savedIngredient));
+  }
+
+  @Test
+  public void getIngredients_returnsAllIngredients_List() {
+    Recipe myRecipe = new Recipe("Ham sandwich");
+    myRecipe.save();
+    Ingredient myIngredient = new Ingredient("Black forest ham");
+    myIngredient.save();
+    myRecipe.addIngredient(myIngredient);
+    List savedIngredients = myRecipe.getIngredients();
+    assertEquals(1, savedIngredients.size());
+  }
 }

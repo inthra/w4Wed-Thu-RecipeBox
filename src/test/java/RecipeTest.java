@@ -122,4 +122,15 @@ public class RecipeTest {
     assertEquals(0, myTag.getRecipes().size());
   }
 
+  @Test
+  public void delete_deletesAllRecipesAndIngredientsAssociations() {
+    Recipe myRecipe = new Recipe("Fish and chips");
+    myRecipe.save();
+    Ingredient myIngredient = new Ingredient("Cod");
+    myIngredient.save();
+    myRecipe.addIngredient(myIngredient);
+    myRecipe.delete();
+    assertEquals(0, myRecipe.getIngredient().size());
+  }
+
 }
