@@ -24,5 +24,14 @@ public class App {
       response.redirect("/");
       return null;
     });
+
+    get("/tags/:tag_id", (request, response) -> {
+      Map<String, Object> model = new HashMap<String, Object>();
+      Tag tag = Tag.find(Integer.parseInt(request.params(":tag_id")));
+      model.put("tag", tag);
+      model.put("template", "templates/tag.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
   }
 }

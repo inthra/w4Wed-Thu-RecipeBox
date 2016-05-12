@@ -36,4 +36,13 @@ public class AppTest extends FluentTest {
     assertThat(pageSource()).contains("Breakfast");
   }
 
+  @Test
+  public void tagAndRecipeFormIsDisplayed() {
+    Tag testTag = new Tag("Lunch");
+    testTag.save();
+    String tagPath = String.format("http://localhost:4567/tag/%d", testTag.getTagId());
+    goTo(tagPath);
+    assertThat(pageSource()).contains("Lunch");
+  }
+
 }

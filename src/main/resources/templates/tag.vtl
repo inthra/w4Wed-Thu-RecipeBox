@@ -1,0 +1,19 @@
+<h1>Category: $tag.getTagName()</h1>
+
+#if ($tag.getRecipes().size() != 0)
+  <hr>
+  <h4>List of Existing Recipes</h4>
+  <ul>
+    #foreach ($recipe in $tag.getRecipes())
+      <li><a href="/tags/$tag.getTagId()/recipes/$recipe.getRecipeId()">$recipe.getRecipeName()</a></li>
+    #end
+  </ul>
+#end
+
+<hr>
+
+<form action="/recipe_form" method="post">
+  <label for="recipe_input">Add a New Recipe</label>
+  <input type="text" id="recipe_input" name="recipe_input">
+  <button type="submit" class="btn btn-success">Add a New Recipe</button>
+</form>
