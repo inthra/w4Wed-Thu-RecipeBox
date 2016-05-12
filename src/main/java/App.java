@@ -19,7 +19,9 @@ public class App {
     post("/tags/tag_form", (request, response) -> {
       Map<String, Object> model = new HashMap<String, Object>();
       Tag tag = new Tag(request.queryParams("tag_input"));
-      tag.save();
+      if ((tag.getTagName()).trim().length() != 0) {
+        tag.save();
+      }
       model.put("tags", Tag.all());
       response.redirect("/");
       return null;
@@ -41,6 +43,24 @@ public class App {
       tag.addRecipe(newRecipe);
       model.put("tag", tag);
       response.redirect("/tags/" + tag.getTagId());
+      return null;
+    });
+
+    post("/tags/:tag_id", (request, response) -> {
+      Map<String, Object> model = new HashMap<String, Object>();
+      Tag tag = Tag.find(Integer.parseInt(request.params(":tag_id")));
+      String updateTagName = request.queryParams("update_tag");
+      tag.update(updateTagName);
+      model.put("tag", tag);
+      response.redirect("/tags/" + tag.getTagId());
+      return null;
+    });
+
+    get("/tag/:tag_id/delete", (request, response) -> {
+      Map<String, Object> model = new HashMap<String, Object>();
+      Tag tag = Tag.find(Integer.parseInt(request.params(":tag_id")));
+      tag.delete();
+      response.redirect("/");
       return null;
     });
 

@@ -32,7 +32,7 @@ public class AppTest extends FluentTest {
   public void tagIsCreatedAndDisplayedTest() {
     goTo("http://localhost:4567/");
     fill("#tag_input").with("Breakfast");
-    submit(".btn");
+    submit("#add_tag");
     assertThat(pageSource()).contains("Breakfast");
   }
 
@@ -40,9 +40,43 @@ public class AppTest extends FluentTest {
   public void tagAndRecipeFormIsDisplayed() {
     Tag testTag = new Tag("Lunch");
     testTag.save();
-    String tagPath = String.format("http://localhost:4567/tags/%d", testTag.getTagId());
-    goTo(tagPath);
+    String url = String.format("http://localhost:4567/tags/%d", testTag.getTagId());
+    goTo(url);
     assertThat(pageSource()).contains("Lunch");
+  }
+
+  @Test
+  public void recipeIsCreatedAndDisplayedTest() {
+    Tag testTag = new Tag("Sandwich");
+    testTag.save();
+    String url = String.format("http://localhost:4567/tags/%d", testTag.getTagId());
+    goTo(url);
+    fill("#recipe_input").with("Chicken Bacon");
+    submit("#add_recipe");
+    goTo(url);
+    assertThat(pageSource()).contains("Chicken Bacon");
+  }
+
+  @Test
+  public void tagNameIsUpdatedTest() {
+    Tag testTag = new Tag("Dinner");
+    testTag.save();
+    String url = String.format("http://localhost:4567/tags/%d", testTag.getTagId());
+    goTo(url);
+    fill("#update_tag").with("Supper");
+    submit("#update_tag_button");
+    goTo(url);
+    assertThat(pageSource()).contains("Supper");
+  }
+
+  @Test
+  public void tagNameIsDeletedTest() {
+    Tag testTag = new Tag("Dinner");
+    testTag.save();
+    String url = String.format("http://localhost:4567/tags/%d", testTag.getTagId());
+    goTo(url);
+    click("a", withText("Warning: This will delete this category!!!"));
+    assertThat(pageSource()).doesNotContain("Dinner");
   }
 
 }

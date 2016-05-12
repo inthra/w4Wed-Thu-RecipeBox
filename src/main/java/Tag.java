@@ -56,12 +56,14 @@ public class Tag {
   }
 
   public void update(String tag_name) {
-    try(Connection con = DB.sql2o.open()) {
-      String sql = "UPDATE tags SET tag_name = :tag_name WHERE id = :id;";
-      con.createQuery(sql)
-        .addParameter("tag_name", tag_name)
-        .addParameter("id", this.getTagId())
-        .executeUpdate();
+    if (tag_name.trim().length() != 0) {
+      try(Connection con = DB.sql2o.open()) {
+        String sql = "UPDATE tags SET tag_name = :tag_name WHERE id = :id;";
+        con.createQuery(sql)
+          .addParameter("tag_name", tag_name)
+          .addParameter("id", this.getTagId())
+          .executeUpdate();
+      }
     }
   }
 

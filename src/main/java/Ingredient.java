@@ -57,12 +57,14 @@ public class Ingredient {
   }
 
   public void update(String ingredient_name) {
-    try(Connection con = DB.sql2o.open()) {
-      String sql = "UPDATE ingredients SET ingredient_name = :ingredient_name WHERE id = :id;";
-      con.createQuery(sql)
-        .addParameter("ingredient_name", ingredient_name)
-        .addParameter("id", this.getIngredientId())
-        .executeUpdate();
+    if (ingredient_name.trim().length() != 0) {
+      try(Connection con = DB.sql2o.open()) {
+        String sql = "UPDATE ingredients SET ingredient_name = :ingredient_name WHERE id = :id;";
+        con.createQuery(sql)
+          .addParameter("ingredient_name", ingredient_name)
+          .addParameter("id", this.getIngredientId())
+          .executeUpdate();
+      }
     }
   }
 
