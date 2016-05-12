@@ -2,10 +2,12 @@
 
 <form action="/tags/$tag.getTagId()" method="post">
   <label for="update_tag">Update Recipe Category</label>
-  <input type="text" id="update_tag" name="update_tag">
+  <input type="text" id="update_tag" name="update_tag" class="form-control">
+  <br>
   <button id="update_tag_button" type="submit" class="btn btn-primary">Update Recipe Category</button>
 </form>
 
+<br>
 <a href="/tag/$tag.getTagId()/delete" class="btn btn-danger">Warning: This will delete this category!!!</a>
 
 #if ($tag.getRecipes().size() != 0)

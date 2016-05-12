@@ -2,22 +2,24 @@
 
 <form action="/recipes/$recipe.getRecipeId()" method="post">
   <label for="update_recipe_name">Update Recipe Name</label>
-  <input type="text" id="update_recipe_name" name="update_recipe_name">
+  <input type="text" id="update_recipe_name" name="update_recipe_name" class="form-control">
   <label for="update_recipe_rating">Update Recipe Rating</label>
-  <input type="text" id="update_recipe_rating" name="update_recipe_rating">
+  <input type="text" id="update_recipe_rating" name="update_recipe_rating" class="form-control">
   <label for="update_recipe_instructions">Add/Update Recipe Instructions</label>
-  <input type="text" id="update_recipe_instructions" name="update_recipe_instructions">
+  <input type="text" id="update_recipe_instructions" name="update_recipe_instructions" class="form-control">
+  <br>
   <button id="update_recipe_button" type="submit" class="btn btn-primary">Update Recipe</button>
 </form>
 
+<br>
 <a href="/recipe/$recipe.getRecipeId()/delete" class="btn btn-danger">Warning: This will delete this recipe!!!</a>
 
 #if ($recipe.getRecipes().size() != 0)
   <hr>
-  <h4>List of Existing Recipes</h4>
+  <h4>List of Ingredients</h4>
   <ul>
-    #foreach ($recipe in $recipe.getRecipes())
-      <li><a href="/recipes/$recipe.getRecipeId()/recipes/$recipe.getRecipeId()">$recipe.getRecipeName()</a></li>
+    #foreach ($ingredient in $recipe.getIngredients())
+      <li><a href="/recipes/$recipe.getRecipeId()/ingredients/$ingredient.getIngredientId()">$ingredient.getIngredientName()</a></li>
     #end
   </ul>
 #end

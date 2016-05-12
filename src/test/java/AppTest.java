@@ -95,4 +95,19 @@ public class AppTest extends FluentTest {
     assertThat(pageSource()).doesNotContain("Dinner");
   }
 
+  @Test
+  public void recipeAndIngredientFormIsDisplayed() {
+    Tag testTag = new Tag("Snack");
+    testTag.save();
+    Recipe testRecipe = new Recipe("Hotdog");
+    testRecipe.save();
+    Ingredient testIngredient = new Ingredient("Mustard");
+    testIngredient.save();
+    String url = String.format("http://localhost:4567/tags/%d/recipes/%d", testTag.getTagId(), testRecipe.getRecipeId());
+    goTo(url);
+    assertThat(pageSource()).contains("Hotdog");
+  }
+
+
+
 }

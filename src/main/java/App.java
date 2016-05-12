@@ -76,11 +76,12 @@ public class App {
 
     get("/tags/:tag_id/recipes/:recipe_id", (request, response) -> {
       Map<String, Object> model = new HashMap<String, Object>();
-      Recipe recipe = new Recipe(request.queryParams("recipe_input"));
+      Recipe recipe = Recipe.find(Integer.parseInt(request.params(":recipe_id")));
       model.put("recipe", recipe);
       model.put("template", "templates/recipe.vtl");
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
+
 
   }
 }
