@@ -1,0 +1,31 @@
+<h1>Recipe: $recipe.getRecipeName()</h1>
+
+<form action="/recipes/$recipe.getRecipeId()" method="post">
+  <label for="update_recipe_name">Update Recipe Name</label>
+  <input type="text" id="update_recipe_name" name="update_recipe_name">
+  <label for="update_recipe_rating">Update Recipe Rating</label>
+  <input type="text" id="update_recipe_rating" name="update_recipe_rating">
+  <label for="update_recipe_instructions">Add/Update Recipe Instructions</label>
+  <input type="text" id="update_recipe_instructions" name="update_recipe_instructions">
+  <button id="update_recipe_button" type="submit" class="btn btn-primary">Update Recipe</button>
+</form>
+
+<a href="/recipe/$recipe.getRecipeId()/delete" class="btn btn-danger">Warning: This will delete this recipe!!!</a>
+
+#if ($recipe.getRecipes().size() != 0)
+  <hr>
+  <h4>List of Existing Recipes</h4>
+  <ul>
+    #foreach ($recipe in $recipe.getRecipes())
+      <li><a href="/recipes/$recipe.getRecipeId()/recipes/$recipe.getRecipeId()">$recipe.getRecipeName()</a></li>
+    #end
+  </ul>
+#end
+
+<hr>
+
+<form action="/ingredients/$ingredient.getIngredientId()/ingredient_form" method="post">
+  <label for="ingredient_input">Add a New Ingredient</label>
+  <input type="text" id="ingredient_input" name="ingredient_input">
+  <button id="add_ingredient" type="submit" class="btn btn-success">Add a New Ingredient</button>
+</form>

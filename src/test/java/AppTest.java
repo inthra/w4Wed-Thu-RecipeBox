@@ -32,8 +32,24 @@ public class AppTest extends FluentTest {
   public void tagIsCreatedAndDisplayedTest() {
     goTo("http://localhost:4567/");
     fill("#tag_input").with("Breakfast");
-    submit("#add_tag");
+    submit(".btn");
     assertThat(pageSource()).contains("Breakfast");
+  }
+
+  @Test
+  public void recipeIsCreatedAndSavedTest() {
+    goTo("http://localhost:4567/");
+    fill("#recipe_input").with("Scrambled Eggs");
+    submit(".btn");
+    assertEquals(1, Recipe.all().size());
+  }
+
+  @Test
+  public void ingredientIsCreatedAndSavedTest() {
+    goTo("http://localhost:4567/");
+    fill("#ingredient_input").with("Carrot");
+    submit(".btn");
+    assertEquals(1, Ingredient.all().size());
   }
 
   @Test
@@ -46,7 +62,7 @@ public class AppTest extends FluentTest {
   }
 
   @Test
-  public void recipeIsCreatedAndDisplayedTest() {
+  public void recipeIsAddedToTagTest() {
     Tag testTag = new Tag("Sandwich");
     testTag.save();
     String url = String.format("http://localhost:4567/tags/%d", testTag.getTagId());

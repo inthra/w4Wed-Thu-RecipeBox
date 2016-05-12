@@ -22,6 +22,14 @@ public class App {
       if ((tag.getTagName()).trim().length() != 0) {
         tag.save();
       }
+      Recipe recipe = new Recipe(request.queryParams("recipe_input"));
+      if ((recipe.getRecipeName()).trim().length() != 0) {
+        recipe.save();
+      }
+      Ingredient ingredient = new Ingredient(request.queryParams("ingredient_input"));
+      if ((ingredient.getIngredientName()).trim().length() != 0) {
+        ingredient.save();
+      }
       model.put("tags", Tag.all());
       response.redirect("/");
       return null;
@@ -39,7 +47,9 @@ public class App {
       Map<String, Object> model = new HashMap<String, Object>();
       Tag tag = Tag.find(Integer.parseInt(request.params(":tag_id")));
       Recipe newRecipe = new Recipe(request.queryParams("recipe_input"));
-      newRecipe.save();
+      if ((newRecipe.getRecipeName()).trim().length() != 0) {
+        newRecipe.save();
+      }
       tag.addRecipe(newRecipe);
       model.put("tag", tag);
       response.redirect("/tags/" + tag.getTagId());
@@ -63,6 +73,14 @@ public class App {
       response.redirect("/");
       return null;
     });
+
+    get("/tags/:tag_id/recipes/:recipe_id", (request, response) -> {
+      Map<String, Object> model = new HashMap<String, Object>();
+      Recipe recipe = new Recipe(request.queryParams("recipe_input"));
+      model.put("recipe", recipe);
+      model.put("template", "templates/recipe.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
 
   }
 }
