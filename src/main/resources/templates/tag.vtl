@@ -12,7 +12,7 @@
 
 <hr>
 
-<form action="/recipe_form" method="post">
+<form action="/tags/$tag.getTagId()/recipe_form" method="post">
   <label for="recipe_input">Add a New Recipe</label>
   <input type="text" id="recipe_input" name="recipe_input">
   <button type="submit" class="btn btn-success">Add a New Recipe</button>

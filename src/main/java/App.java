@@ -16,7 +16,7 @@ public class App {
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
-    post("/tag_form", (request, response) -> {
+    post("/tags/tag_form", (request, response) -> {
       Map<String, Object> model = new HashMap<String, Object>();
       Tag tag = new Tag(request.queryParams("tag_input"));
       tag.save();
@@ -32,6 +32,17 @@ public class App {
       model.put("template", "templates/tag.vtl");
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
+
+    post("/tags/:tag_id/recipe_form", (request, response) -> {
+      Map<String, Object> model = new HashMap<String, Object>();
+      Tag tag = Tag.find(Integer.parseInt(request.params(":tag_id")));
+      Recipe newRecipe = new Recipe(request.queryParams("recipe_input"));
+      newRecipe.save();
+      tag.addRecipe(newRecipe);
+      model.put("tag", tag);
+      response.redirect("/tags/" + tag.getTagId());
+      return null;
+    });
 
   }
 }
