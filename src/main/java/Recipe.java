@@ -173,9 +173,6 @@ public class Recipe {
         con.createQuery(joinDeleteQueryTagsRecipes)
           .addParameter("recipe_id", this.getRecipeId())
           .executeUpdate();
-
-
     }
   }
-
 }

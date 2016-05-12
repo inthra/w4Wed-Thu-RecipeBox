@@ -1,0 +1,23 @@
+<h1>Recipe Box!</h1>
+
+<hr>
+
+<p>Keep track of your recipes, add recipe categories, adjust recipe ingredients and many other features!</p>
+
+#if ($tags.size() != 0)
+  <hr>
+  <h4>List of Existing Recipe Categories</h4>
+  <ul>
+    #foreach ($tag in $tags)
+      <li><a href="/tags/$tag.getTagId()">$tag.getTagName()</a></li>
+    #end
+  </ul>
+#end
+
+<hr>
+
+<form action="/tag_form" method="post">
+  <label for="tag_input">New Recipe Category:</label>
+  <input type="text" id="tag_input" name="tag_input">
+  <button type="submit" class="btn btn-success">Add a New Recipe Category</button>
+</form>

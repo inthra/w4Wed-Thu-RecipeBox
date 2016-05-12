@@ -10,6 +10,9 @@ import static org.junit.Assert.*;
 public class AppTest extends FluentTest {
   public WebDriver webDriver = new HtmlUnitDriver();
 
+  @Rule
+  public DatabaseRule database = new DatabaseRule();
+
   @Override
   public WebDriver getDefaultDriver() {
     return webDriver;
@@ -20,7 +23,17 @@ public class AppTest extends FluentTest {
 
   @Test
   public void rootTest() {
+    goTo("http://localhost:4567/");
+    assertThat(pageSource()).contains("Recipe Box!");
+    assertThat(pageSource()).contains("Add a New Recipe Category");
+  }
 
+  @Test
+  public void tagIsCreatedAndDisplayedTest() {
+    goTo("http://localhost:4567/");
+    fill("#tag_input").with("Breakfast");
+    submit(".btn");
+    assertThat(pageSource()).contains("Breakfast");
   }
 
 }
