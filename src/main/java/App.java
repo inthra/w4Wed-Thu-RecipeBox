@@ -82,6 +82,19 @@ public class App {
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
-
+    post("/recipes/:recipe_id/ingredient_form", (request, response) -> {
+      Map<String, Object> model = new HashMap<String, Object>();
+      // Tag tag = Tag.find(Integer.parseInt(request.params(":tag_id")));
+      Recipe recipe = Recipe.find(Integer.parseInt(request.params(":recipe_id")));
+      Ingredient newIngredient = new Ingredient(request.queryParams("ingredient_input"));
+      if ((newIngredient.getIngredientName()).trim().length() != 0) {
+        newIngredient.save();
+      }
+      recipe.addIngredient(newIngredient);
+      model.put("recipe", recipe);
+      String url = String.format("/tags/%d/recipes/%d", tag.getTagId(), recipe.getRecipeId());
+      response.redirect(url);
+      return null;
+    });
   }
 }

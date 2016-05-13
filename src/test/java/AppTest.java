@@ -69,7 +69,6 @@ public class AppTest extends FluentTest {
     goTo(url);
     fill("#recipe_input").with("Chicken Bacon");
     submit("#add_recipe");
-    goTo(url);
     assertThat(pageSource()).contains("Chicken Bacon");
   }
 
@@ -108,6 +107,17 @@ public class AppTest extends FluentTest {
     assertThat(pageSource()).contains("Hotdog");
   }
 
-
+  @Test
+  public void ingredientIsAddedToRecipeTest() {
+    Tag testTag = new Tag("Snack");
+    testTag.save();
+    Recipe testRecipe = new Recipe("Ham Sandwich");
+    testRecipe.save();
+    String url = String.format("http://localhost:4567/tags/%d/recipes/%d", testTag.getTagId(), testRecipe.getRecipeId());
+    goTo(url);
+    fill("#ingredient_input").with("Ham");
+    submit("#add_ingredient");
+    assertThat(pageSource()).contains("Ham");
+  }
 
 }
